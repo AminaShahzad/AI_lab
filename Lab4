@@ -1,1 +1,48 @@
+# Depth-Limited Search (DLS)
+def depth_limited_search(node, target, depth, graph, visited):
+    if node == target:
+        return True
+    if depth == 0:
+        return False
+
+    visited.add(node)
+    
+    # Explore all neighbors if not visited
+    for neighbor in graph[node]:
+        if neighbor not in visited:
+            if depth_limited_search(neighbor, target, depth - 1, graph, visited):
+                return True
+    
+    return False
+
+# Iterative Deepening DFS
+def iterative_deepening_search(start, target, graph, max_depth):
+    for depth in range(max_depth):
+        visited = set()  # Reset visited set for each iteration
+        print(f"Searching at depth: {depth}")
+        if depth_limited_search(start, target, depth, graph, visited):
+            print(f"Target {target} found at depth {depth}!")
+            return True
+    print(f"Target {target} not found within depth limit {max_depth}.")
+    return False
+
+# Example graph represented as an adjacency list (dictionary)
+graph = {
+    'A': ['B', 'C', 'D'],
+    'B': ['E', 'F'],
+    'C': ['G'],
+    'D': ['H'],
+    'E': [],
+    'F': [],
+    'G': [],
+    'H': []
+}
+
+# Start node, target node, and maximum depth for search
+start_node = 'A'
+target_node = 'H'
+max_depth = 5
+
+# Running Iterative Deepening Search
+iterative_deepening_search(start_node, target_node, graph, max_depth)
 
